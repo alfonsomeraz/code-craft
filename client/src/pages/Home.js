@@ -20,18 +20,21 @@ const PATIENTS = [
 const Home = () => {
   const [patients, setPatients] = useState([])
 
-  useEffect(() => {
-    const fetchExams = async () => {
-      const response = await fetch('http://localhost:9000/api/exams')
-      const json = await response.json()
-
-      if (response.ok) {
-        setPatients(json)
-      }
+  const fetchExams = async () => {
+    const response = await fetch('/api/exams')
+    const json = await response.json()
+  
+    if (response.ok) {
+      setPatients(json)
     }
-console.log(patients)
+    
+  }
+
+  useEffect(() => {
     fetchExams()
   }, [])
+
+  console.log(patients)
 
   return (
     <div className="home">
@@ -49,30 +52,31 @@ console.log(patients)
             <th>ICU Admits</th>
             <th>Mortality</th>
             <th>Brixia Scores</th>
-            <th>Image URL</th>
+            <th>Image Filename</th>
           </tr>
         </thead>
         <tbody>
           {patients.map((patient) => (
             <tr key={patient._id}>
-              <td>{patient.patientId}</td>
-              <td>{patient.age}</td>
-              <td>{patient.sex}</td>
-              <td>{patient.zipCode}</td>
-              <td>{patient.BMI}</td>
-              <td>{patient.weight}</td>
-              <td>{patient.examId}</td>
-              <td>{patient.icuAdmit}</td>
-              <td>{patient.icuAdmits}</td>
-              <td>{patient.mortality}</td>
-              <td>{patient.brixiaScores}</td>
-              <td>{patient.imageURL}</td>
+              <td>{patient.PATIENT_ID}</td>
+              <td>{patient.AGE}</td>
+              <td>{patient.SEX}</td>
+              <td>{patient.ZIP}</td>
+              <td>{patient.LATEST_BMI}</td>
+              <td>{patient['LATEST WEIGHT']}</td>
+              <td>{patient.exam_Id}</td>
+              <td>{patient['ICU Admit']}</td>
+              <td>{patient['# ICU admits']}</td>
+              <td>{patient.MORTALITY}</td>
+              <td>{patient['Brixia Scores']}</td>
+              <td>{patient.png_filename}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  )
+  );
+  
 }
 
 export default Home

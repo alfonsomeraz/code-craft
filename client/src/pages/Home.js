@@ -17,29 +17,60 @@ const PATIENTS = [
 ];
 
 
-const Home = (examList) => {
-  const {exams, dispatch} = useExamsContext()
+const Home = () => {
+  const [patients, setPatients] = useState([])
 
   useEffect(() => {
     const fetchExams = async () => {
-      const response = await fetch('/api/exams')
+      const response = await fetch('http://localhost:9000/api/exams')
       const json = await response.json()
 
       if (response.ok) {
-        dispatch({type: 'SET_EXAMS', payload: json})
+        setPatients(json)
       }
     }
-
+console.log(patients)
     fetchExams()
   }, [])
 
   return (
     <div className="home">
-      <div className="exams">
-        {exams && exams.map((exam) => (
-          <p key={exam._id}>{exam.patientId}</p>
-        ))}
-      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Patient ID</th>
+            <th>Age</th>
+            <th>Sex</th>
+            <th>Zip Code</th>
+            <th>BMI</th>
+            <th>Weight</th>
+            <th>Exam ID</th>
+            <th>ICU Admit</th>
+            <th>ICU Admits</th>
+            <th>Mortality</th>
+            <th>Brixia Scores</th>
+            <th>Image URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          {patients.map((patient) => (
+            <tr key={patient._id}>
+              <td>{patient.patientId}</td>
+              <td>{patient.age}</td>
+              <td>{patient.sex}</td>
+              <td>{patient.zipCode}</td>
+              <td>{patient.BMI}</td>
+              <td>{patient.weight}</td>
+              <td>{patient.examId}</td>
+              <td>{patient.icuAdmit}</td>
+              <td>{patient.icuAdmits}</td>
+              <td>{patient.mortality}</td>
+              <td>{patient.brixiaScores}</td>
+              <td>{patient.imageURL}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   )
 }

@@ -17,31 +17,66 @@ const PATIENTS = [
 ];
 
 
-const Home = (examList) => {
-  const {exams, dispatch} = useExamsContext()
+const Home = () => {
+  const [patients, setPatients] = useState([])
+
+  const fetchExams = async () => {
+    const response = await fetch('/api/exams')
+    const json = await response.json()
+  
+    if (response.ok) {
+      setPatients(json)
+    }
+    
+  }
 
   useEffect(() => {
-    const fetchExams = async () => {
-      const response = await fetch('/api/exams')
-      const json = await response.json()
-
-      if (response.ok) {
-        dispatch({type: 'SET_EXAMS', payload: json})
-      }
-    }
-
     fetchExams()
   }, [])
 
+  console.log(patients)
+
   return (
     <div className="home">
-      <div className="exams">
-        {exams && exams.map((exam) => (
-          <p key={exam._id}>{exam.patientId}</p>
-        ))}
-      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Patient ID</th>
+            <th>Age</th>
+            <th>Sex</th>
+            <th>Zip Code</th>
+            <th>BMI</th>
+            <th>Weight</th>
+            <th>Exam ID</th>
+            <th>ICU Admit</th>
+            <th>ICU Admits</th>
+            <th>Mortality</th>
+            <th>Brixia Scores</th>
+            <th>Image Filename</th>
+          </tr>
+        </thead>
+        <tbody>
+          {patients.map((patient) => (
+            <tr key={patient._id}>
+              <td>{patient.PATIENT_ID}</td>
+              <td>{patient.AGE}</td>
+              <td>{patient.SEX}</td>
+              <td>{patient.ZIP}</td>
+              <td>{patient.LATEST_BMI}</td>
+              <td>{patient['LATEST WEIGHT']}</td>
+              <td>{patient.exam_Id}</td>
+              <td>{patient['ICU Admit']}</td>
+              <td>{patient['# ICU admits']}</td>
+              <td>{patient.MORTALITY}</td>
+              <td>{patient['Brixia Scores']}</td>
+              <td>{patient.png_filename}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
-  )
+  );
+  
 }
 
 export default Home

@@ -17,4 +17,4 @@ const examSchema = new Schema({
   imageURL: String
 }, { timestamps: true })
 
-module.exports = mongoose.model('Exam', examSchema)
+module.exports = mongoose.model('patients', examSchema)
